@@ -1,0 +1,51 @@
+{
+	"name": "greeter",
+	"version": "1.0.0",
+	"description": "Greets people!",
+	"type": "module",
+	"scripts": {
+		"clean": "del-cli dist/ coverage/ *.log *.tmp *.bak *.tgz",
+		"build:cjs": "esbuild --bundle --format=cjs --outfile=dist/index.cjs --footer:js=\"module.exports = rateLimit;\" source/index.ts",
+		"build:esm": "esbuild --bundle --format=esm --outfile=dist/index.mjs source/index.ts",
+		"build:types": "dts-bundle-generator --out-file=dist/index.d.ts source/index.ts",
+		"compile": "run-s clean build:*",
+		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
+		"prepare": "run-s compile"
+	},
+	"devDependencies": {
+		"@jest/globals": "^27.4.4",
+		"@types/jest": "^27.0.3",
+		"@types/node": "^17.0.4",
+		"cross-env": "^7.0.3",
+		"del-cli": "^4.0.1",
+		"dts-bundle-generator": "^6.2.0",
+		"esbuild": "^0.14.9",
+		"jest": "^27.4.5",
+		"npm-run-all": "^4.1.5",
+		"ts-jest": "^27.1.2",
+		"ts-node": "^10.4.0",
+		"typescript": "^4.5.4"
+	},
+	"jest": {
+		"verbose": true,
+		"preset": "ts-jest/presets/default-esm",
+		"globals": {
+			"ts-jest": {
+				"useESM": true
+			}
+		},
+		"collectCoverage": true,
+		"testTimeout": 30000,
+		"testMatch": [
+			"**/test/**/*-test.[jt]s"
+		],
+		"moduleFileExtensions": [
+			"js",
+			"json",
+			"ts"
+		],
+		"moduleNameMapper": {
+			"^(\\.{1,2}/.*)\\.js$": "$1"
+		}
+	}
+}
