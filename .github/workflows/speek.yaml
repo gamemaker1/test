@@ -1,0 +1,24 @@
+name: Speak
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  once:
+    name: Once
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Speak
+        run: echo speaking once
+  twice:
+    name: Twice
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Speak
+        run: echo speaking twice
