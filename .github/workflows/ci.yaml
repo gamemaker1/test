@@ -24,9 +24,29 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-      # Build and tag each Docker image.
-      - name: Build and tag each Docker image
-        run: ./scripts/build
+      # Copy over files to a build folder.
+      - name: Copy necessary files
+        run: |
+          rm -rf build && mkdir build && cd build
+          cp -r ../sources/ ./
+          cp -r ../scripts/dockerfiles/* ./
+      # Build and tag each image individually.
+      - name: Build `bap-base`
+        run: |
+          cd build
+          docker build --tag bap-base --file base.dockerfile .
+      - name: Build `bap-client`
+        run: |
+          cd build
+          docker build --tag bap-client --file client.dockerfile .
+      - name: Build `bap-protocol-helper`
+        run: |
+          cd build
+          docker build --tag bap-protocol-helper --file protocol-helper.dockerfile .
+      - name: Build `bap-storefront`
+        run: |
+          cd build
+          docker build --tag bap-storefront --file storefront.dockerfile .
   publish:
     name: Publish
     # Run the `Publish` action only if the developer has pushed a tag to GitHub
