@@ -1,0 +1,53 @@
+# .github/workflows/ci.yaml
+# This file defines the workflows to be run with GitHub Actions on every push.
+
+name: CI
+
+# Run the `Build` action on push to the `develop` branch, and the `Build` and
+# `Publish` actions on a tag push to the `stable` branch.
+on:
+  push:
+    branches:
+      - develop
+      - stable
+
+# The jobs to run.
+jobs:
+  # Build and test
+  build:
+    name: Build
+    # Run the job on a Linux machine.
+    runs-on: ubuntu-latest
+    steps:
+      # `git-clone` the repository on the branch that a push occurred on.
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      # Build and tag each Docker image.
+      - name: Build and tag each Docker image
+        run: ./scripts/build
+  publish:
+    name: Publish
+    # Run the `Publish` action only if the developer has pushed a tag to GitHub
+    # and the `Build` job succeeds.
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    # Run the job on a Linux machine.
+    runs-on: ubuntu-latest
+    steps:
+      # `git-clone` the repository on the branch that a push occurred on (this should be the `stable` branch).
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      # Build and tag each Docker image.
+      - name: Build and tag each Docker image
+        run: ./scripts/build
+      # Publish all the images to GHCR.
+      - name: Publish images to GitHub Container Registry
+        run: |
+          docker push ghcr.io/gamemaker1/bap-base:latest
+          docker push ghcr.io/gamemaker1/bap-client:latest
+          docker push ghcr.io/gamemaker1/bap-protocol-helper:latest
+          docker push ghcr.io/gamemaker1/bap-storefront-ui:latest

@@ -1,0 +1,4 @@
+# .gitignore
+# Tells `git` to ignore certain files.
+
+build/
