@@ -27,6 +27,7 @@ new_version="$1"
 echo $new_version > ./version
 
 # Commit the change
+git add version
 git commit -S -m "chore(release): release $new_version"
 # Create a tag
 git tag "$new_version"
