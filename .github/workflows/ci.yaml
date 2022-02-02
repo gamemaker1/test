@@ -36,19 +36,19 @@ jobs:
       - name: Build `bap-base`
         run: |
           cd build
-          docker build --tag bap-base --file base.dockerfile .
+          docker build --tag ghcr.io/gamemaker1/bap-base --tag bap-base --file base.dockerfile .
       - name: Build `bap-client`
         run: |
           cd build
-          docker build --tag bap-client --file client.dockerfile .
+          docker build --tag ghcr.io/gamemaker1/bap-client --tag bap-client --file client.dockerfile .
       - name: Build `bap-protocol-helper`
         run: |
           cd build
-          docker build --tag bap-protocol-helper --file protocol-helper.dockerfile .
+          docker build --tag ghcr.io/gamemaker1/bap-protocol-helper --tag bap-protocol-helper --file protocol-helper.dockerfile .
       - name: Build `bap-storefront`
         run: |
           cd build
-          docker build --tag bap-storefront --file storefront.dockerfile .
+          docker build --tag ghcr.io/gamemaker1/bap-storefront --tag bap-storefront --file storefront.dockerfile .
   publish:
     name: Publish
     # Run the `Publish` action only if the developer has pushed a tag to GitHub
@@ -76,20 +76,20 @@ jobs:
       - name: Build and push `bap-base`
         run: |
           cd build/
-          docker build --tag ghcr.io/gamemaker1/bap-base --file base.dockerfile .
+          docker build --tag ghcr.io/gamemaker1/bap-base --tag bap-base --file base.dockerfile .
           docker push ghcr.io/gamemaker1/bap-base
       - name: Build and push `bap-client`
         run: |
           cd build/
-          docker build --tag ghcr.io/gamemaker1/bap-client --file client.dockerfile .
+          docker build --tag ghcr.io/gamemaker1/bap-client --tag bap-client --file client.dockerfile .
           docker push ghcr.io/gamemaker1/bap-client
       - name: Build and push `bap-protocol-helper`
         run: |
           cd build/
-          docker build --tag ghcr.io/gamemaker1/bap-protocol-helper --file protocol-helper.dockerfile .
+          docker build --tag ghcr.io/gamemaker1/bap-protocol-helper --tag bap-protocol-helper --file protocol-helper.dockerfile .
           docker push ghcr.io/gamemaker1/bap-protocol-helper
       - name: Build and push `bap-storefront`
         run: |
           cd build/
-          docker build --tag ghcr.io/gamemaker1/bap-storefront --file storefront.dockerfile .
+          docker build --tag ghcr.io/gamemaker1/bap-storefront --tag bap-storefront --file storefront.dockerfile .
           docker push ghcr.io/gamemaker1/bap-storefront
