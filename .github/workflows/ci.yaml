@@ -26,8 +26,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-      # Copy over files to a build folder.
-      - name: Copy necessary files
+      # Prepare for the build.
+      - name: Prepare for the build
         run: |
           rm -rf build && mkdir build && cd build
           cp -r ../sources/ ./
@@ -63,13 +63,41 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-      # Build and tag each Docker image.
-      - name: Build and tag each Docker image
-        run: ./scripts/build
-      # Publish all the images to GHCR.
-      - name: Publish images to GitHub Container Registry
+      # Prepare for the build.
+      - name: Prepare for the build
         run: |
-          docker push ghcr.io/gamemaker1/bap-base:latest
-          docker push ghcr.io/gamemaker1/bap-client:latest
-          docker push ghcr.io/gamemaker1/bap-protocol-helper:latest
-          docker push ghcr.io/gamemaker1/bap-storefront-ui:latest
+          rm -rf build && mkdir build && cd build
+          cp -r ../sources/ ./
+          cp -r ../scripts/dockerfiles/* ./
+      # Publish all the images to GHCR.
+      - name: Log in to GHCR
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Build and push `bap-base`
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: build/
+          file: base.dockerfile
+          push: true
+          tags: ghcr.io/gamemaker1/bap-base
+      - name: Build and push `bap-client`
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: build/
+          file: client.dockerfile
+          push: true
+          tags: ghcr.io/gamemaker1/bap-client
+      - name: Build and push `bap-protocol-helper`
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: build/
+          file: protocol-helper.dockerfile
+          push: true
+          tags: ghcr.io/gamemaker1/bap-protocol-helper
+      - name: Build and push `bap-storefront`
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: build/
+          file: storefront.dockerfile
+          push: true
+          tags: ghcr.io/gamemaker1/bap-storefront
