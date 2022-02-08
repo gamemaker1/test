@@ -1,0 +1,9 @@
+# .gitignore
+# Tells Git to ignore some files and folders
+
+.cache/
+node_modules/
+public/
+
+*.log
+.DS_Store

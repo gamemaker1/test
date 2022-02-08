@@ -1,0 +1,22 @@
+name: Something is wrong in the docs
+description: ———
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Thanks for reporting this error!
+  - type: input
+    attributes:
+      label: Location
+      description: |
+        Copy-paste the URL of the page where you spotted the error.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Correction
+      description: |
+        What is the mistake? How should it be corrected?
+    validations:
+      required: true

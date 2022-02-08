@@ -1,0 +1,22 @@
+name: Found a typo
+description: ———
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Thanks for reporting the typo!
+  - type: input
+    attributes:
+      label: Location
+      description: |
+        Copy-paste the URL of the page where you spotted the typo.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Correction
+      description: |
+        What is the mistake? How should it be corrected?
+    validations:
+      required: true
