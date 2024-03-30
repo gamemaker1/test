@@ -1,0 +1,8 @@
+[project]
+name = "agent_torch"
+version = "0.1.0"
+description = ""
+readme = "readme.md"
+
+[tool.setuptools.packages.find]
+include = ["core", "models"]
