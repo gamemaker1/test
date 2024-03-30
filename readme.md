@@ -10,4 +10,7 @@ Get started by running:
 # install requirements
 > pip install -r requirements.txt
 > pip install -e .
+
+# run the model
+> python models/covid/simulator.py
 ```
